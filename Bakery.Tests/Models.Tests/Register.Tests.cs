@@ -36,6 +36,56 @@ namespace Bakery.Tests
     }
 
     [TestMethod]
+    public void AddBread_AddsToTheProductList_ProductListHasItems ()
+    {
+      Register register = new Register();
+
+      register.AddBread();
+      CollectionAssert.AreEqual(
+        new List<Product> { new Bread() },
+        register.Products
+      );
+
+      register.AddBread();
+      CollectionAssert.AreEqual(
+        new List<Product> { new Bread(), new Bread() },
+        register.Products
+      );
+    }
+
+    [TestMethod]
+    public void AddPastry_AddsToTheProductList_ProductListHasItems ()
+    {
+      Register register = new Register();
+
+      register.AddPastry();
+      CollectionAssert.AreEqual(
+        new List<Product> { new Pastry() },
+        register.Products
+      );
+
+      register.AddPastry();
+      CollectionAssert.AreEqual(
+        new List<Product> { new Pastry(), new Pastry() },
+        register.Products
+      );
+    }
+
+    [TestMethod]
+    public void AddPastryAndAddBread_AddsToTheProductList_ProductListHasItems ()
+    {
+      Register register = new Register();
+
+      register.AddBread();
+      register.AddPastry();
+
+      CollectionAssert.AreEqual(
+        new List<Product> { new Bread(), new Pastry() },
+        register.Products
+      );
+    }
+
+    [TestMethod]
     public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns5PerTwoBread ()
     {
       Register register = new Register();
