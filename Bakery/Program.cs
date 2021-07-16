@@ -22,6 +22,9 @@ namespace Bakery
         "Pastry ($2)",
         "Checkout",
       }},
+      { ApplicationState.ADDED_ITEM_TO_CART, new string[] {
+        "Yum!",
+      }},
       { ApplicationState.SEE_DEALS, new string[] {
         "Great!",
       }},
@@ -78,15 +81,24 @@ namespace Bakery
       {
         Console.WriteLine("Welcome to Allister's Bakery!");
         Console.WriteLine("We have many delicious items for sale! Sadly, you aren't allowed to buy them.");
-        Console.WriteLine("You can buy bread and pastries though, have as many as you like!\n");
+        Console.WriteLine("You can buy bread and pastries though, have as many as you like!");
 
         DrawCurrentOptions();
 
-        Console.WriteLine("\n\nCurrently In Your Cart:");
+        Console.WriteLine("Currently In Your Cart:");
         foreach (Product item in Register.Products)
         {
           Console.WriteLine($"- {item.GetType().Name}");
         }
+      }
+
+      if (State == ApplicationState.ADDED_ITEM_TO_CART)
+      {
+        Product latestItem = Register.Products[Register.Products.Count - 1];
+
+        Console.WriteLine($"You place the {latestItem.GetType().Name} in your cart.");
+
+        DrawCurrentOptions();
       }
     }
 
@@ -94,7 +106,7 @@ namespace Bakery
     {
       string[] options = OptionsPerState[State];
 
-      Console.WriteLine("(Use arrow keys to change options, and enter to select one. Press any other keys to stop the program)");
+      Console.WriteLine('\n');
       for (int i = 0; i < options.Length; i++)
       {
         string option = $"  {options[i]}  ";
@@ -104,6 +116,8 @@ namespace Bakery
         WriteWithColor(option, foreground, background);          
         Console.Write("  ");
       }
+
+      Console.WriteLine("\n(Use arrow keys to change options, and enter to select one. Press any other keys to stop the program)\n");
     }
 
     private static bool HandleUserInput()
@@ -132,6 +146,9 @@ namespace Bakery
         case ApplicationState.SEE_DEALS:
           HandleOptionsSeeDeals();
           break;
+        case ApplicationState.ADDED_ITEM_TO_CART:
+          HandleOptionsAddedToCard();
+          break;
       }
 
       return false;
@@ -157,9 +174,11 @@ namespace Bakery
           break;
         case 1:
           Register.AddBread();
+          ChangeState(ApplicationState.ADDED_ITEM_TO_CART);
           break;
         case 2:
           Register.AddPastry();
+          ChangeState(ApplicationState.ADDED_ITEM_TO_CART);
           break;
         case 3:
           ChangeState(ApplicationState.IN_CHECKOUT);
@@ -168,6 +187,11 @@ namespace Bakery
     }
 
     private static void HandleOptionsSeeDeals ()
+    {
+      ChangeState(ApplicationState.ORDERING_ITEMS);
+    }
+
+    private static void HandleOptionsAddedToCard ()
     {
       ChangeState(ApplicationState.ORDERING_ITEMS);
     }
