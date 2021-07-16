@@ -16,6 +16,16 @@ namespace Bakery.Models
       }
     }
 
+    public void AddBread ()
+    {
+      Products.Add(new Bread());
+    }
+
+    public void AddPastry ()
+    {
+      Products.Add(new Pastry());
+    }
+
     public int GetPriceWithDiscount ()
     {
       int total = TotalPrice;
