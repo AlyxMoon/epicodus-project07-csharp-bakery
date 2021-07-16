@@ -64,13 +64,14 @@ namespace Bakery
     private static void DrawDisplay ()
     {
       Console.Clear();
-      string[] options = OptionsPerState[State];
 
       if (State == ApplicationState.SEE_DEALS)
       {
         Console.WriteLine("We have two deals on at the moment:");
         Console.WriteLine("- For bread, it's buy one get one free.");
         Console.WriteLine("- For pastries, if you buy three at a time you save $1.");
+
+        DrawCurrentOptions();
       }
 
       if (State == ApplicationState.ORDERING_ITEMS)
@@ -79,14 +80,21 @@ namespace Bakery
         Console.WriteLine("We have many delicious items for sale! Sadly, you aren't allowed to buy them.");
         Console.WriteLine("You can buy bread and pastries though, have as many as you like!\n");
 
+        DrawCurrentOptions();
+
         Console.WriteLine("\n\nCurrently In Your Cart:");
         foreach (Product item in Register.Products)
         {
           Console.WriteLine($"- {item.GetType().Name}");
         }
       }
+    }
 
-      Console.WriteLine("(Use arrow keys to change options, and enter to select one. Press esc at any time to leave)");
+    private static void DrawCurrentOptions ()
+    {
+      string[] options = OptionsPerState[State];
+
+      Console.WriteLine("(Use arrow keys to change options, and enter to select one. Press any other keys to stop the program)");
       for (int i = 0; i < options.Length; i++)
       {
         string option = $"  {options[i]}  ";
@@ -101,43 +109,67 @@ namespace Bakery
     private static bool HandleUserInput()
     {
       ConsoleKeyInfo pressedKey = Console.ReadKey(true);
-      
-      if (pressedKey.Key == ConsoleKey.Escape) return true;
 
-      string[] options = OptionsPerState[State];
-      if (pressedKey.Key == ConsoleKey.LeftArrow) _selectedOption--;
-      if (pressedKey.Key == ConsoleKey.RightArrow) _selectedOption++;
-
-
-      if (State == ApplicationState.ORDERING_ITEMS)
+      switch (pressedKey.Key)
       {
-        int minOption = 0;
-        int maxOption = options.Length - 1;
-
-        if (SelectedOption < minOption) _selectedOption = minOption;
-        if (SelectedOption > maxOption) _selectedOption = maxOption;
-
-        if (pressedKey.Key != ConsoleKey.Enter) return false;
-
-        if (SelectedOption == 0) ChangeState(ApplicationState.SEE_DEALS);
-        else if (SelectedOption == 1) Register.AddBread();
-        else if (SelectedOption == 2) Register.AddPastry();
-        else ChangeState(ApplicationState.IN_CHECKOUT);
+        case ConsoleKey.LeftArrow:
+          ChoosePreviousOption();
+          return false;
+        case ConsoleKey.RightArrow:
+          ChooseNextOption();
+          return false;
+        case ConsoleKey.Enter:
+          break;
+        default:
+          return true;
       }
-      else if (State == ApplicationState.SEE_DEALS)
+
+      switch (State)
       {
-        int minOption = 0;
-        int maxOption = options.Length - 1;
-
-        if (SelectedOption < minOption) _selectedOption = minOption;
-        if (SelectedOption > maxOption) _selectedOption = maxOption;
-
-        if (pressedKey.Key != ConsoleKey.Enter) return false;
-
-        if (SelectedOption == 0) ChangeState(ApplicationState.ORDERING_ITEMS);
+        case ApplicationState.ORDERING_ITEMS:
+          HandleOptionsOrderingItems();
+          break;
+        case ApplicationState.SEE_DEALS:
+          HandleOptionsSeeDeals();
+          break;
       }
 
       return false;
+    }
+
+    private static void ChoosePreviousOption ()
+    {
+      _selectedOption = Math.Max(SelectedOption - 1, 0);
+    }
+
+    private static void ChooseNextOption ()
+    {
+      string[] options = OptionsPerState[State];
+      _selectedOption = Math.Min(SelectedOption + 1, options.Length - 1);
+    }
+
+    private static void HandleOptionsOrderingItems ()
+    {
+      switch (SelectedOption)
+      {
+        case 0:
+          ChangeState(ApplicationState.SEE_DEALS);
+          break;
+        case 1:
+          Register.AddBread();
+          break;
+        case 2:
+          Register.AddPastry();
+          break;
+        case 3:
+          ChangeState(ApplicationState.IN_CHECKOUT);
+          break;
+      }
+    }
+
+    private static void HandleOptionsSeeDeals ()
+    {
+      ChangeState(ApplicationState.ORDERING_ITEMS);
     }
 
     private static void ChangeState (ApplicationState state)
