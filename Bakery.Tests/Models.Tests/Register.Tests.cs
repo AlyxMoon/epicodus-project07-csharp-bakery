@@ -13,8 +13,8 @@ namespace Bakery.Tests
     {
       Register register = new Register();
 
-      Assert.AreEqual(register.Products.Count, 0);
-      Assert.AreEqual(register.TotalPrice, 0);
+      Assert.AreEqual(0, register.Products.Count);
+      Assert.AreEqual(0, register.TotalPrice);
     }
 
     [TestMethod]
@@ -30,8 +30,8 @@ namespace Bakery.Tests
       Assert.AreEqual(register.TotalPrice, 7);
       Assert.AreEqual(register.Products.Count, 2);
       CollectionAssert.AreEqual(
-        register.Products,
-        new List<Product> { bread1, pastry1 }
+        new List<Product> { bread1, pastry1 },
+        register.Products
       );
     }
 
@@ -43,12 +43,12 @@ namespace Bakery.Tests
       register.Products.Add(new Bread());
       register.Products.Add(new Bread());
 
-      Assert.AreEqual(register.GetPriceWithDiscount(), 5);
+      Assert.AreEqual(5, register.GetPriceWithDiscount());
 
       register.Products.Add(new Bread());
       register.Products.Add(new Bread());
 
-      Assert.AreEqual(register.GetPriceWithDiscount(), 10);
+      Assert.AreEqual(10, register.GetPriceWithDiscount());
     }
 
     [TestMethod]
@@ -60,7 +60,36 @@ namespace Bakery.Tests
       register.Products.Add(new Bread());
       register.Products.Add(new Bread());
 
-      Assert.AreEqual(register.GetPriceWithDiscount(), 10);
+      Assert.AreEqual(10, register.GetPriceWithDiscount());
+    }
+    
+    [TestMethod]
+    public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns5Per3Pastry ()
+    {
+      Register register = new Register();
+
+      register.Products.Add(new Pastry());
+      register.Products.Add(new Pastry());
+      register.Products.Add(new Pastry());
+      Assert.AreEqual(5, register.GetPriceWithDiscount());
+
+      register.Products.Add(new Pastry());
+      register.Products.Add(new Pastry());
+      register.Products.Add(new Pastry());
+      Assert.AreEqual(10, register.GetPriceWithDiscount());
+    }
+    
+    [TestMethod]
+    public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns12For7Pastries ()
+    {
+      Register register = new Register();
+
+      for (int i = 0; i < 7; i++)
+      {
+        register.Products.Add(new Pastry());
+      }
+
+      Assert.AreEqual(12, register.GetPriceWithDiscount());
     }
   }
 }
