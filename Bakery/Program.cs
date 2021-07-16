@@ -12,6 +12,7 @@ namespace Bakery
     IN_CHECKOUT,
     SEE_DEALS,
     FINISHED,
+    STEALING,
   }
 
   public class Program
@@ -30,7 +31,8 @@ namespace Bakery
         "Great!",
       }},
       { ApplicationState.IN_CHECKOUT, new string[] {
-        "Thanks! (exit)"
+        "Thanks! (exit)",
+        "I don't want to pay! (steal)",
       }},
     };
     private static Dictionary<ApplicationState, string[]> OptionsPerState {
@@ -57,18 +59,21 @@ namespace Bakery
     {
       Console.CursorVisible = false;
 
-      while (true)
+      bool exit = false;
+      while (!exit)
       {
-        DrawDisplay();
-        bool exit = HandleUserInput();
+        exit = DrawDisplay();
 
-        if (exit) break;
+        if (!exit)
+        {
+          exit = HandleUserInput();
+        }
       }
 
       Console.CursorVisible = true;
     }
 
-    private static void DrawDisplay ()
+    private static bool DrawDisplay ()
     {
       Console.Clear();
 
@@ -120,6 +125,40 @@ namespace Bakery
 
         DrawCurrentOptions();
       }
+
+      if (State == ApplicationState.STEALING)
+      {
+        Console.WriteLine("Excuse me? Nobody steals on my watch!");
+        Console.WriteLine("The shopkeeper takes your cart and kicks you out of the store.");
+
+        string[] person = new string[] {
+          "\\  \\",
+          " ----O",
+          "/  |",
+        };
+
+        for (int i = 0; i < Console.WindowWidth; i++)
+        {
+          System.Threading.Thread.Sleep(50);
+          Console.Clear();
+
+          string animationPadding = new String(' ', i);
+
+          Console.WriteLine($"\n\n{animationPadding} noooo");
+
+          foreach (string line in person)
+          {
+            string updatedLine = animationPadding + line;
+            int end = Math.Min(Console.WindowWidth - 1, updatedLine.Length);
+
+            Console.WriteLine(updatedLine.Substring(0, end));
+          }
+        }
+
+        return true;
+      }
+
+      return false;
     }
 
     private static void DrawCurrentOptions ()
@@ -221,7 +260,15 @@ namespace Bakery
 
     private static void HandleOptionsInCheckout ()
     {
-      ChangeState(ApplicationState.FINISHED);
+      switch(SelectedOption)
+      {
+        case 0:
+          ChangeState(ApplicationState.FINISHED);
+          break;
+        case 1:
+          ChangeState(ApplicationState.STEALING);
+          break;
+      }
     }
 
     private static void ChangeState (ApplicationState state)
