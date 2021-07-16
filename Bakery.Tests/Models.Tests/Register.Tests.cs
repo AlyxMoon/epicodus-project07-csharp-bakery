@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bakery.Models;
@@ -41,16 +42,10 @@ namespace Bakery.Tests
       Register register = new Register();
 
       register.AddBread();
-      CollectionAssert.AreEqual(
-        new List<Product> { new Bread() },
-        register.Products
-      );
-
       register.AddBread();
-      CollectionAssert.AreEqual(
-        new List<Product> { new Bread(), new Bread() },
-        register.Products
-      );
+      
+      Assert.AreEqual(2, register.Products.Count);
+      CollectionAssert.AllItemsAreInstancesOfType(register.Products, typeof(Bread));
     }
 
     [TestMethod]
@@ -59,16 +54,10 @@ namespace Bakery.Tests
       Register register = new Register();
 
       register.AddPastry();
-      CollectionAssert.AreEqual(
-        new List<Product> { new Pastry() },
-        register.Products
-      );
-
       register.AddPastry();
-      CollectionAssert.AreEqual(
-        new List<Product> { new Pastry(), new Pastry() },
-        register.Products
-      );
+      
+      Assert.AreEqual(2, register.Products.Count);
+      CollectionAssert.AllItemsAreInstancesOfType(register.Products, typeof(Pastry));
     }
 
     [TestMethod]
@@ -79,10 +68,10 @@ namespace Bakery.Tests
       register.AddBread();
       register.AddPastry();
 
-      CollectionAssert.AreEqual(
-        new List<Product> { new Bread(), new Pastry() },
-        register.Products
-      );
+      Assert.AreEqual(2, register.Products.Count);
+      Console.WriteLine(register.Products[0]);
+      Assert.IsTrue(register.Products[0] is Bread);
+      Assert.IsTrue(register.Products[1] is Pastry);
     }
 
     [TestMethod]
