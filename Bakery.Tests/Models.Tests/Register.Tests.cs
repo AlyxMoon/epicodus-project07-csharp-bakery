@@ -61,6 +61,19 @@ namespace Bakery.Tests
     }
 
     [TestMethod]
+    public void AddDanish_AddsToTheProductList_ProductListHasItems ()
+    {
+      Register register = new Register();
+
+      register.AddDanish();
+      register.AddDanish();
+      
+      Assert.AreEqual(2, register.Products.Count);
+      Assert.AreEqual(8, register.TotalPrice);
+      CollectionAssert.AllItemsAreInstancesOfType(register.Products, typeof(Danish));
+    }
+
+    [TestMethod]
     public void AddPastryAndAddBread_AddsToTheProductList_ProductListHasItems ()
     {
       Register register = new Register();
@@ -129,6 +142,17 @@ namespace Bakery.Tests
       }
 
       Assert.AreEqual(12, register.GetPriceWithDiscount());
+    }
+    
+    [TestMethod]
+    public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns8ForDanishWithBread ()
+    {
+      Register register = new Register();
+
+      register.AddBread();
+      register.AddDanish();
+
+      Assert.AreEqual(8, register.GetPriceWithDiscount());
     }
   }
 }
