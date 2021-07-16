@@ -26,20 +26,28 @@ namespace Bakery.Models
       Products.Add(new Pastry());
     }
 
+    public void AddDanish ()
+    {
+      Products.Add(new Danish());
+    }
+
     public int GetPriceWithDiscount ()
     {
       int total = TotalPrice;
       int breadCount = 0;
       int pastryCount = 0;
+      int danishCount = 0;
 
       foreach (Product item in Products)
       {
         if (item is Bread) breadCount++;
         if (item is Pastry) pastryCount++;
+        if (item is Danish) danishCount++;
       }
 
       total -= 5 * (breadCount / 2);
       total -= (pastryCount / 3);
+      total -= Math.Min(breadCount, danishCount);
 
       return total;
     }

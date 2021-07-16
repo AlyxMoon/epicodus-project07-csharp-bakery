@@ -22,6 +22,7 @@ namespace Bakery
         "See Deals",
         "Bread ($5)",
         "Pastry ($2)",
+        "Danish ($4)",
         "Checkout",
       }},
       { ApplicationState.ADDED_ITEM_TO_CART, new string[] {
@@ -79,9 +80,10 @@ namespace Bakery
 
       if (State == ApplicationState.SEE_DEALS)
       {
-        Console.WriteLine("We have two deals on at the moment:");
+        Console.WriteLine("We have three deals on at the moment:");
         Console.WriteLine("- For bread, it's buy one get one free.");
         Console.WriteLine("- For pastries, if you buy three at a time you save $1.");
+        Console.WriteLine("- For danishes, every danish you get with a loaf of bread, you save $1.");
 
         DrawCurrentOptions();
       }
@@ -281,6 +283,10 @@ namespace Bakery
           ChangeState(ApplicationState.ADDED_ITEM_TO_CART);
           break;
         case 3:
+          Register.AddDanish();
+          ChangeState(ApplicationState.ADDED_ITEM_TO_CART);
+          break;
+        case 4:
           ChangeState(ApplicationState.IN_CHECKOUT);
           break;
       }
