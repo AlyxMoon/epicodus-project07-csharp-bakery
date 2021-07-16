@@ -121,7 +121,9 @@ namespace Bakery
 
         if (total != totalWithDiscount)
         {
+          System.Threading.Thread.Sleep(500);
           Console.WriteLine("Oh wait! I forgot to include your discount!");
+          System.Threading.Thread.Sleep(1000);
           Console.Write($"Sorry about that, your actual total is ${totalWithDiscount}.");
         }
 
@@ -131,7 +133,9 @@ namespace Bakery
       if (State == ApplicationState.STEALING)
       {
         Console.WriteLine("Excuse me? Nobody steals on my watch!");
+        System.Threading.Thread.Sleep(2000);
         Console.WriteLine("The shopkeeper takes your cart and kicks you out of the store.");
+        System.Threading.Thread.Sleep(3000);
 
         string[] person = new string[] {
           "      ",
@@ -181,18 +185,6 @@ namespace Bakery
               Console.WriteLine(door[j] + person[j].Substring(-padding));
             }
           }
-
-
-          // string animationPadding = new String(' ', i);
-
-
-          // foreach (string line in person)
-          // {
-          //   string updatedLine = animationPadding + line;
-          //   int end = Math.Min(Console.WindowWidth - 1, updatedLine.Length);
-
-          //   Console.WriteLine(updatedLine.Substring(0, end));
-          // }
         }
 
         return true;
