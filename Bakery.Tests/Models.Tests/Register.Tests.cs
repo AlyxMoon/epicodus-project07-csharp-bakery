@@ -34,5 +34,33 @@ namespace Bakery.Tests
         new List<Product> { bread1, pastry1 }
       );
     }
+
+    [TestMethod]
+    public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns5PerTwoBread ()
+    {
+      Register register = new Register();
+
+      register.Products.Add(new Bread());
+      register.Products.Add(new Bread());
+
+      Assert.AreEqual(register.GetPriceWithDiscount(), 5);
+
+      register.Products.Add(new Bread());
+      register.Products.Add(new Bread());
+
+      Assert.AreEqual(register.GetPriceWithDiscount(), 10);
+    }
+
+    [TestMethod]
+    public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns10For3Bread ()
+    {
+      Register register = new Register();
+
+      register.Products.Add(new Bread());
+      register.Products.Add(new Bread());
+      register.Products.Add(new Bread());
+
+      Assert.AreEqual(register.GetPriceWithDiscount(), 10);
+    }
   }
 }
