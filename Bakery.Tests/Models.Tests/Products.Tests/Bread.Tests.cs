@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Bakery.Models;
+using Bakery.Models.Products;
 
 namespace Bakery.Tests
 {
@@ -11,6 +11,7 @@ namespace Bakery.Tests
     {
       Bread item = new Bread();
       Assert.AreEqual(item.Price, 5);
+      Assert.AreEqual(item.DefaultPrice, 5);
     }
   }
 }
