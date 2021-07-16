@@ -11,6 +11,7 @@ namespace Bakery
     ADDED_ITEM_TO_CART,
     IN_CHECKOUT,
     SEE_DEALS,
+    FINISHED,
   }
 
   public class Program
@@ -27,6 +28,9 @@ namespace Bakery
       }},
       { ApplicationState.SEE_DEALS, new string[] {
         "Great!",
+      }},
+      { ApplicationState.IN_CHECKOUT, new string[] {
+        "Thanks! (exit)"
       }},
     };
     private static Dictionary<ApplicationState, string[]> OptionsPerState {
@@ -100,6 +104,22 @@ namespace Bakery
 
         DrawCurrentOptions();
       }
+
+      if (State == ApplicationState.IN_CHECKOUT)
+      {
+        int total = Register.TotalPrice;
+        int totalWithDiscount = Register.GetPriceWithDiscount();
+
+        Console.WriteLine($"Ready to check out, eh? Your total comes out to ${total}");
+
+        if (total != totalWithDiscount)
+        {
+          Console.WriteLine("Oh wait! I forgot to include your discount!");
+          Console.Write($"Sorry about that, your actual total is ${totalWithDiscount}.");
+        }
+
+        DrawCurrentOptions();
+      }
     }
 
     private static void DrawCurrentOptions ()
@@ -149,9 +169,12 @@ namespace Bakery
         case ApplicationState.ADDED_ITEM_TO_CART:
           HandleOptionsAddedToCard();
           break;
+        case ApplicationState.IN_CHECKOUT:
+          HandleOptionsInCheckout();
+          break;
       }
 
-      return false;
+      return State == ApplicationState.FINISHED;
     }
 
     private static void ChoosePreviousOption ()
@@ -194,6 +217,11 @@ namespace Bakery
     private static void HandleOptionsAddedToCard ()
     {
       ChangeState(ApplicationState.ORDERING_ITEMS);
+    }
+
+    private static void HandleOptionsInCheckout ()
+    {
+      ChangeState(ApplicationState.FINISHED);
     }
 
     private static void ChangeState (ApplicationState state)
