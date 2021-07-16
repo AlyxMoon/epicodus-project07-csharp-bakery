@@ -132,27 +132,65 @@ namespace Bakery
         Console.WriteLine("The shopkeeper takes your cart and kicks you out of the store.");
 
         string[] person = new string[] {
-          "\\  \\",
-          " ----O",
-          "/  |",
+          "      ",
+          "      ",
+          "      ",
+          " \\  /",
+          "O----",
+          " /  \\",
+          "nooo  ",
+          "      ",
+          "      ",
+          "      ",
         };
 
-        for (int i = 0; i < Console.WindowWidth; i++)
+        string[] door = new string[] {
+          "   /|      ",
+          "  / |      ",
+          " /__|______",
+          "|  __  __  |",
+          "| |  ||  | |",
+          "| |__||__| |",
+          "|  __  __()|",
+          "| |  ||  | |",
+          "| |__||__| |",
+          "|__________|",
+        };
+
+        int lineLength = Console.WindowWidth - person[0].Length - door[0].Length - 20;
+
+        for (int i = 0; i < lineLength + 5; i++)
         {
-          System.Threading.Thread.Sleep(50);
+          System.Threading.Thread.Sleep(20);
           Console.Clear();
 
-          string animationPadding = new String(' ', i);
+          // Console.WriteLine($"\n\n{animationPadding} noooo\n");
 
-          Console.WriteLine($"\n\n{animationPadding} noooo");
+          int padding = lineLength - i;
 
-          foreach (string line in person)
+          for (int j = 0; j < door.Length; j++)
           {
-            string updatedLine = animationPadding + line;
-            int end = Math.Min(Console.WindowWidth - 1, updatedLine.Length);
-
-            Console.WriteLine(updatedLine.Substring(0, end));
+            if (padding >= 0)
+            {
+              Console.WriteLine(door[j] + new String(' ', padding) + person[j]);
+            }
+            else
+            {
+              Console.WriteLine(door[j] + person[j].Substring(-padding));
+            }
           }
+
+
+          // string animationPadding = new String(' ', i);
+
+
+          // foreach (string line in person)
+          // {
+          //   string updatedLine = animationPadding + line;
+          //   int end = Math.Min(Console.WindowWidth - 1, updatedLine.Length);
+
+          //   Console.WriteLine(updatedLine.Substring(0, end));
+          // }
         }
 
         return true;
