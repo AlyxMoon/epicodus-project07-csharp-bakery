@@ -7,7 +7,7 @@ namespace Bakery.Models
 {
   public class Register
   {
-    public List<Product> Products = new List<Product>();
+    public List<Product> Products = new();
     public int TotalPrice 
     {
       get 

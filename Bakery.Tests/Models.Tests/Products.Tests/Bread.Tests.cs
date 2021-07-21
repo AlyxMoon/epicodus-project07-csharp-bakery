@@ -9,7 +9,7 @@ namespace Bakery.Tests
     [TestMethod]
     public void Constructor_InitializesWithCorrectValues_SuchAsPrice ()
     {
-      Bread item = new Bread();
+      Bread item = new();
       Assert.AreEqual(5, item.Price);
       Assert.AreEqual(5, item.DefaultPrice);
     }

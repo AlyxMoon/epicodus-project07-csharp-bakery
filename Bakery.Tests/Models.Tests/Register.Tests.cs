@@ -12,7 +12,7 @@ namespace Bakery.Tests
     [TestMethod]
     public void Constructor_InitializesWithCorrectValues_SuchAsPrice ()
     {
-      Register register = new Register();
+      Register register = new();
 
       Assert.AreEqual(0, register.Products.Count);
       Assert.AreEqual(0, register.TotalPrice);
@@ -21,9 +21,9 @@ namespace Bakery.Tests
     [TestMethod]
     public void Register_CanAddProducts_GivesCorrectLengthAndPrice ()
     {
-      Register register = new Register();
-      Bread bread1 = new Bread();
-      Pastry pastry1 = new Pastry();
+      Register register = new();
+      Bread bread1 = new();
+      Pastry pastry1 = new();
 
       register.Products.Add(bread1);
       register.Products.Add(pastry1);
@@ -39,7 +39,7 @@ namespace Bakery.Tests
     [TestMethod]
     public void AddBread_AddsToTheProductList_ProductListHasItems ()
     {
-      Register register = new Register();
+      Register register = new();
 
       register.AddBread();
       register.AddBread();
@@ -51,7 +51,7 @@ namespace Bakery.Tests
     [TestMethod]
     public void AddPastry_AddsToTheProductList_ProductListHasItems ()
     {
-      Register register = new Register();
+      Register register = new();
 
       register.AddPastry();
       register.AddPastry();
@@ -63,7 +63,7 @@ namespace Bakery.Tests
     [TestMethod]
     public void AddDanish_AddsToTheProductList_ProductListHasItems ()
     {
-      Register register = new Register();
+      Register register = new();
 
       register.AddDanish();
       register.AddDanish();
@@ -76,7 +76,7 @@ namespace Bakery.Tests
     [TestMethod]
     public void AddPastryAndAddBread_AddsToTheProductList_ProductListHasItems ()
     {
-      Register register = new Register();
+      Register register = new();
 
       register.AddBread();
       register.AddPastry();
@@ -90,7 +90,7 @@ namespace Bakery.Tests
     [TestMethod]
     public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns10PerThreeBread ()
     {
-      Register register = new Register();
+      Register register = new();
 
       register.Products.Add(new Bread());
       register.Products.Add(new Bread());
@@ -108,7 +108,7 @@ namespace Bakery.Tests
     [TestMethod]
     public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns15For4Bread ()
     {
-      Register register = new Register();
+      Register register = new();
 
       register.Products.Add(new Bread());
       register.Products.Add(new Bread());
@@ -121,7 +121,7 @@ namespace Bakery.Tests
     [TestMethod]
     public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns5Per3Pastry ()
     {
-      Register register = new Register();
+      Register register = new();
 
       register.Products.Add(new Pastry());
       register.Products.Add(new Pastry());
@@ -137,7 +137,7 @@ namespace Bakery.Tests
     [TestMethod]
     public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns12For7Pastries ()
     {
-      Register register = new Register();
+      Register register = new();
 
       for (int i = 0; i < 7; i++)
       {
@@ -150,7 +150,7 @@ namespace Bakery.Tests
     [TestMethod]
     public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns8ForDanishWithBread ()
     {
-      Register register = new Register();
+      Register register = new();
 
       register.AddBread();
       register.AddDanish();

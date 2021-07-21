@@ -17,7 +17,7 @@ namespace Bakery
 
   public class Program
   {
-    private static Dictionary<ApplicationState, string[]> _optionsPerState = new Dictionary<ApplicationState, string[]> {
+    private readonly static Dictionary<ApplicationState, string[]> _optionsPerState = new() {
       { ApplicationState.ORDERING_ITEMS, new string[] {
         "See Deals",
         "Bread ($5)",
@@ -41,7 +41,7 @@ namespace Bakery
       get { return _optionsPerState; }
     }
 
-    private static Register _register = new Register();
+    private readonly static Register _register = new();
     public static Register Register {
       get { return _register; }
     }
@@ -106,7 +106,7 @@ namespace Bakery
 
       if (State == ApplicationState.ADDED_ITEM_TO_CART)
       {
-        Product latestItem = Register.Products[Register.Products.Count - 1];
+        Product latestItem = Register.Products[^1];
 
         Console.WriteLine($"You place the {latestItem.GetType().Name} in your cart.");
 
@@ -183,7 +183,7 @@ namespace Bakery
             }
             else
             {
-              Console.WriteLine(door[j] + person[j].Substring(-padding));
+              Console.WriteLine(door[j] + person[j][-padding..]);
             }
           }
         }
