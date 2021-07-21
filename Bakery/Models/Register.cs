@@ -45,8 +45,8 @@ namespace Bakery.Models
         if (item is Danish) danishCount++;
       }
 
-      total -= 5 * (breadCount / 2);
-      total -= (pastryCount / 3);
+      total -= 5 * (breadCount / 3);
+      total -= pastryCount / 3;
       total -= Math.Min(breadCount, danishCount);
 
       return total;

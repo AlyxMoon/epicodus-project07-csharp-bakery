@@ -88,31 +88,34 @@ namespace Bakery.Tests
     }
 
     [TestMethod]
-    public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns5PerTwoBread ()
+    public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns10PerThreeBread ()
     {
       Register register = new Register();
 
       register.Products.Add(new Bread());
       register.Products.Add(new Bread());
-
-      Assert.AreEqual(5, register.GetPriceWithDiscount());
-
-      register.Products.Add(new Bread());
       register.Products.Add(new Bread());
 
       Assert.AreEqual(10, register.GetPriceWithDiscount());
+
+      register.Products.Add(new Bread());
+      register.Products.Add(new Bread());
+      register.Products.Add(new Bread());
+
+      Assert.AreEqual(20, register.GetPriceWithDiscount());
     }
 
     [TestMethod]
-    public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns10For3Bread ()
+    public void GetPriceWithDiscounts_AccountsForDiscountPrice_Returns15For4Bread ()
     {
       Register register = new Register();
 
       register.Products.Add(new Bread());
       register.Products.Add(new Bread());
       register.Products.Add(new Bread());
+      register.Products.Add(new Bread());
 
-      Assert.AreEqual(10, register.GetPriceWithDiscount());
+      Assert.AreEqual(15, register.GetPriceWithDiscount());
     }
     
     [TestMethod]

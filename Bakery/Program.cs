@@ -81,7 +81,7 @@ namespace Bakery
       if (State == ApplicationState.SEE_DEALS)
       {
         Console.WriteLine("We have three deals on at the moment:");
-        Console.WriteLine("- For bread, it's buy one get one free.");
+        Console.WriteLine("- For bread, if you buy three, one of them is free!");
         Console.WriteLine("- For pastries, if you buy three at a time you save $1.");
         Console.WriteLine("- For danishes, every danish you get with a loaf of bread, you save $1.");
 
