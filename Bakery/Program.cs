@@ -34,6 +34,7 @@ namespace Bakery
       { ApplicationState.IN_CHECKOUT, new string[] {
         "Thanks! (exit)",
         "I don't want to pay! (steal)",
+        "I want to order more things!"
       }},
     };
     private static Dictionary<ApplicationState, string[]> OptionsPerState {
@@ -303,6 +304,9 @@ namespace Bakery
           break;
         case 1:
           ChangeState(ApplicationState.STEALING);
+          break;
+        case 2:
+          ChangeState(ApplicationState.ORDERING_ITEMS);
           break;
       }
     }
